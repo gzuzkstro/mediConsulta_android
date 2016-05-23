@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="9"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.jesscastro.mediconsulta.PatientDetailsActivity">
+
+    <TextView
+        android:text="INFORMACIÓN DEL PACIENTE"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"/>
+    <ScrollView
+        android:id="@+id/act_patientdetails_prev_info"
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0px">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Nombre:"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+            <TextView
+                android:text="Apellido:"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+            <TextView
+                android:text="Sexo:"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:text="CONSULTAS DEL PACIENTE"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"/>
+    <ExpandableListView
+        android:id="@+id/act_patientdetails_prev_list"
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="0px"></ExpandableListView>
+</LinearLayout>
