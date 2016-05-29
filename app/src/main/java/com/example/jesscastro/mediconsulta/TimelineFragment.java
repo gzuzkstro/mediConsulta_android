@@ -13,7 +13,11 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,13 +30,63 @@ public class TimelineFragment extends Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
+    OnDayAnalyzed dayListener;
 
     public TimelineFragment() {
     }
 
     /*
-    * Preparing the list data
+    * Setting up the interface to use for fragment to fragment communication
     */
+    public interface OnDayAnalyzed {
+        public void onFullDayFound(Date date);
+    }
+
+    /*
+    * Uses a Day object to update the timeline
+    * */
+    public void updateTimeline(Day dayResult){
+
+        //Clear collections in order to add new data
+        listDataHeader.clear();
+        listDataChild.clear();
+
+        int count = 0;
+        for(dayAppointment da :dayResult.getDayAppointments()) {
+
+            //Assign header content
+            org.joda.time.DateTime startDate = org.joda.time.DateTime.parse(da.getStart());
+            org.joda.time.DateTime endDate = org.joda.time.DateTime.parse(da.getEnd());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("hh:mm");
+            listDataHeader.add(fmt.print(startDate) + " - " + fmt.print(endDate));
+
+            //Assign expandable content
+            List<String> childData = new ArrayList<String>();
+            childData.add("Paciente: " + da.getPatientName());
+            childData.add("Motivo: " + da.getDescription());
+
+            listDataChild.put(listDataHeader.get(count), childData);
+        }
+
+        // Notify to see changes in UI
+        listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            dayListener = (OnDayAnalyzed) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement Listener");
+        }
+    }
+
+    /*
+        * Preparing the list data, does nothing
+        */
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
@@ -74,7 +128,7 @@ public class TimelineFragment extends Fragment {
         // setting list adapter
         expListView.setAdapter(listAdapter);
 
-        setClickListeners(expListView);
+        //setClickListeners(expListView);
 
         return rootView;
     }
@@ -252,4 +306,5 @@ public class TimelineFragment extends Fragment {
             return true;
         }
     }
+
 }
