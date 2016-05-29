@@ -43,13 +43,21 @@ public class TimelineFragment extends Fragment {
     }
 
     /*
-    * Uses a Day object to update the timeline
-    * */
-    public void updateTimeline(Day dayResult){
+    * Clears Adapter's content*/
 
+    public void clearData() {
         //Clear collections in order to add new data
         listDataHeader.clear();
         listDataChild.clear();
+
+        // Notify to see changes in UI
+        listAdapter.notifyDataSetChanged();
+    }
+
+    /*
+    * Uses a Day object to update the timeline
+    * */
+    public void updateTimeline(Day dayResult){
 
         int count = 0;
         for(dayAppointment da :dayResult.getDayAppointments()) {
@@ -66,6 +74,8 @@ public class TimelineFragment extends Fragment {
             childData.add("Motivo: " + da.getDescription());
 
             listDataChild.put(listDataHeader.get(count), childData);
+
+            count++;
         }
 
         // Notify to see changes in UI
@@ -180,7 +190,7 @@ public class TimelineFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
+
                 Toast.makeText(
                         getActivity(),
                         listDataHeader.get(groupPosition)

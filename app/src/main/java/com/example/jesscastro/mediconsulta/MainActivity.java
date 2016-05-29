@@ -80,7 +80,24 @@ public class MainActivity extends AppCompatActivity
                 public void onSelectDate(Date date, View view) {
                     Toast.makeText(getApplicationContext(), date.toString(), Toast.LENGTH_SHORT).show();
 
-                    //TODO aquí va el codigo para buscar el día en la coleccion
+                    org.joda.time.DateTime pivot = new org.joda.time.DateTime(date);
+
+                    timelineFragment.clearData();
+
+                    for(Day dayResult : allDays){
+
+                        //Uses Joda to parse the ISO date format
+                        org.joda.time.DateTime fullDate = org.joda.time.DateTime.parse(dayResult.getDate());
+
+                        //Compare every known date to the selected one
+                        if(pivot.getDayOfMonth() == fullDate.getDayOfMonth() &&
+                                pivot.getMonthOfYear() == fullDate.getMonthOfYear() &&
+                                pivot.getYear() == fullDate.getYear()){
+
+                            //Sets the date to "full" color in the calendar
+                            timelineFragment.updateTimeline(dayResult);
+                        }
+                    }
                     //Buscar el día
                     //Enviar el día a timelineFragment para actualizar
 
@@ -235,7 +252,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
-            // TODO Auto-generated method stub
+
             return new CaldroidCustomAdapter(getActivity(), month, year,
                     getCaldroidData(), extraData);
         }
