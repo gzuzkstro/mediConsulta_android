@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity
                 // http://<ip del servidor>:1305/api/days/22824486
 
                 String dayRequest_url =
-                        "http://192.168.0.102:1305/api/days/22824486";
+                        "http://192.168.43.24:1305/api/days/22824486";
 
                 URL url = new URL(dayRequest_url);
 
